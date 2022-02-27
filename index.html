@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hecked(Hacked)</title>
+    <script src='https://cdn.tailwindcss.com'></script>
+    <script src='https://unpkg.com/alpinejs' defer></script>
+</head>
+<body x-init="init()" x-data="data()" class="bg-black font-mono text-[#00ff00]">
+    <div class="" x-text="`OS : ${Name}`"></div>
+    <div class="" x-text="`Browser : ${browser}`"></div>
+    <div class="" x-text="`IP Adress : ${IP}`"></div>
+
+    <script>
+        function data(){
+            return{
+                init(){
+                    this.getOS();
+                    this.getB();
+                    this.getIP();
+                },
+
+                Name : "Unknown",
+                browser : "Unknown",
+                IP : "Unknown",
+                getOS(){
+                    if (navigator.userAgent.indexOf("Win") != -1) this.Name = 
+            "Windows";
+            if (navigator.userAgent.indexOf("Mac") != -1) this.Name = 
+            "Macintosh";
+            if (navigator.userAgent.indexOf("Linux") != -1) this.Name = 
+            "Linux";
+            if (navigator.userAgent.indexOf("Android") != -1) this.Name = 
+            "Android";
+            if (navigator.userAgent.indexOf("like Mac") != -1) this.Name = 
+            "iOS";
+                },
+                getB(){
+                    let userAgent = navigator.userAgent;
+                    let browserName;
+                    if(userAgent.match(/chrome|chromium|crios/i)){
+                browserName = "Chrome";
+            }else if(userAgent.match(/firefox|fxios/i)){
+                browserName = "Firefox";
+            }  else if(userAgent.match(/safari/i)){
+                browserName = "Safari";
+            }else if(userAgent.match(/opr\//i)){
+                browserName = "Opera";
+            } else if(userAgent.match(/edg/i)){
+                browserName = "Edge";
+            }else{
+                browserName="No browser detection";
+            }
+            this.browser = browserName;
+                },
+                getIP : async function(){
+                    await fetch('https://api.ipgeolocation.io/ipgeo?apiKey=0d5a60cf703546ec9db4813b2a18d7bd')
+                    .then(res => res.json())
+                    .then(data => this.IP = data.ip)
+                }
+            }
+        }
+    </script>
+</body>
+</html>
